@@ -7,60 +7,52 @@ t_Nat ABS_Z_N(t_Int Int)
 {
 	t_Nat Nat;
 
-	Nat.Denom_N = (unsigned long int*)malloc((Int.Dgr_Z + 1) * sizeof(unsigned long int));
-
+	//Запись и.п. структуры целого цисла в и.п. натурального; Взятие модуля
 	Nat.Denom_N = Int.Numer_Z;
 	Nat.Dgr_N = Int.Dgr_Z;
-
-
-
+	
 	return Nat;
 }
 
 t_Int ADD_ZZ_Z(t_Int Int, t_Int z_Int)
 {
-	unsigned short int ch_sgn, ch_sgn_2;
-	t_Int summ;
+	t_Int summ; //Сумма целых чисел
 
-
-	ch_sgn = POZ_Z_D(Int);
-	ch_sgn_2 = POZ_Z_D(z_Int);
-
-	if (ch_sgn == 1)
+	if (POZ_Z_D(Int) == 1)
 	{
-		if (ch_sgn_2 == 1)
+		if (POZ_Z_D(z_Int) == 1)
 		{
-			summ = ADD_NN_N(Int, z_Int);
+			summ = TRANS_N_Z(ADD_NN_N(ABS_Z_N(Int), ABS_Z_N(z_Int)));
 			summ.Sgn_Z = 1;
 		}
 
 		else
 		{
-			summ = SUB_NN_N(Int, z_Int);
+			summ = TRANS_N_Z(SUB_NN_N(Int, z_Int));
 
-			if ((COM_NN_D(Int, z_Int) == 2) || (COM_NN_D(Int, z_Int) == 0))
+			if ((COM_NN_D(ABS_Z_N(Int), ABS_Z_N(z_Int)) == 2) || (COM_NN_D(ABS_Z_N(Int), ABS_Z_N(z_Int)) == 0))
 				summ.Sgn_Z = 0;
 			else
 				summ.Sgn_Z = 1;
 		}
 	}
 	else
-		if (ch_sgn_2 == 0)
+		if (POZ_Z_D(z_Int) == 0)
 		{
-			summ = ADD_NN_N(Int, z_Int);
+			summ = TRANS_N_Z(ADD_NN_N(ABS_Z_N(Int), ABS_Z_N(z_Int)));
 			summ.Sgn_Z = 0;
 		}
 
 		else
 		{
-			if ((COM_NN_D(Int, z_Int) == 2) || (COM_NN_D(Int, z_Int) == 0))
+			if ((COM_NN_D(ABS_Z_N(Int), ABS_Z_N(z_Int)) == 2) || (COM_NN_D(ABS_Z_N(Int), ABS_Z_N(z_Int)) == 0))
 			{
-				summ = SUB_NN_N(Int, z_Int);
+				summ = TRANS_N_Z(SUB_NN_N(Int, z_Int));
 				summ.Sgn_Z = 0;
 			}
 			else
 			{
-				summ = SUB_NN_N(z_Int, Int);
+				summ = TRANS_N_Z(SUB_NN_N(Int, z_Int));
 				summ.Sgn_Z = 1;
 			}
 		}
@@ -70,19 +62,19 @@ t_Int ADD_ZZ_Z(t_Int Int, t_Int z_Int)
 
 t_Int DIV_ZZ_Z(t_Int Int, t_Nat z_Nat)
 {
-	t_Int res;
-	if (COM_NN_D(Int, z_Nat) == 2)
+	t_Int res; //Результат	
+
+	if (COM_NN_D(ABS_Z_N(Int), z_Nat) == 2)
 	{
-		if (COM_NN_D(Int, z_Nat) == 1)
+		if (COM_NN_D(ABS_Z_N(Int), z_Nat) == 1)
 		{
 			if (POZ_Z_D(Int) == 2)
-				res = DIV_NN_N(z_Nat, Int);
+				res = DIV_NN_N(z_Nat, ABS_Z_N(Int));
 			else
+			{
 				if (POZ_Z_D(Int) == 1)
 				{
-					Int = ABS_Z_N(Int);
-					z_Nat = ABS_Z_N(z_Nat);
-					res = DIV_NN_N(z_Nat, Int);
+					res = DIV_NN_N(z_Nat, ABS_Z_N(Int));
 				}
 				else
 				{
@@ -90,84 +82,81 @@ t_Int DIV_ZZ_Z(t_Int Int, t_Nat z_Nat)
 					getchar();
 					exit(1);
 				}
+			}
 		}
 		else
 		{
-			res.Numer_Z = (unsigned long int*)malloc(1 * sizeof(unsigned long int));
+			res.Numer_Z = (int*)malloc(sizeof(int);
 			res.Numer_Z[0] = 0;
 			res.Dgr_Z = 0;
-			res.Sgn_Z = Int.Sgn_Z;
+			res.Sgn_Z = 0;
 		}
-
 	}
 
 	else
-		if (COM_NN_D(Int, z_Nat) == 1)
+	{
+		if (COM_NN_D(ABS_Z_N(Int), z_Nat) == 1)
 		{
 			if (POZ_Z_D(z_Nat) == 2)
-				res = DIV_NN_N(Int, z_Nat);
+				res = DIV_NN_N(ABS_Z_N(Int), z_Nat);
 
 			else
+			{
 				if (POZ_Z_D(z_Nat) == 1)
 				{
 					if (POZ_Z_D(Int) == 1)
 					{
-						z_Nat = ABS_Z_N(z_Nat);
-						res = DIV_NN_N(Int, z_Nat);
+						res = DIV_NN_N(ABS_Z_N(Int), z_Nat);
 					}
 					else
+					{
 						if (POZ_Z_D(Int) == 2)
 						{
-							z_Nat = ABS_Z_N(z_Nat);
-							Int = ABS_Z_N(Int);
-							res = DIV_NN_�(Int, z_Nat);
+							res = DIV_NN_Т(ABS_Z_N(Int), z_Nat);
 						}
 						else
 						{
-							res.Numer_Z = (unsigned long int*)malloc(1 * sizeof(unsigned long int));
+							res.Numer_Z = (int*)malloc(sizeof(int);
 							res.Numer_Z[0] = 0;
 							res.Dgr_Z = 0;
-							res.Sgn_Z = Int.Sgn_Z;
+							res.Sgn_Z = 0;
 						}
+					}
 				}
-				else
-				{
-					printf("Error.\n");
-					getchar();
-					exit(1);
-				}
+			}
 		}
+	}
 	return res;
 }
 
 t_Int MOD_ZZ_Z(t_Int n1, t_Nat n2)
 {
 	t_Int temp;
-	if (COM_NN_D(n1, n2) == 2)
+	if (COM_NN_D(ABS_Z_N(n1), ABS_Z_N(n2)) == 2)
 	{
 		while (SUB_ZZ_Z(n1, n2) >= n2)
 		{
 			n1 = SUB_ZZ_Z(n1, n2);
 		}
-		return SUB_ZZ_Z(n1, n2);
+		return n1;
 	}
-	else if (COM_NN_D(n1, n2) == 1)
+	else if (COM_NN_D(ABS_Z_N(n1), ABS_Z_N(n2)) == 1)
 	{
 		while (SUB_ZZ_Z(n2, n1) >= n1)
 		{
 			n2 = SUB_ZZ_Z(n2, n1);
 		}
-		return SUB_ZZ_Z(n2, n1);
+		return n2;
 	}
 	else
 	{
 		temp = n1;
-		temp.koef[n1.num] = 0;
+		temp.Numer_Z[n1.num] = 0;
 		return temp;
 	}
 }
 
-unsigned short int MUL_ZM_Z(t_Int Int)
+int MUL_ZM_Z(t_Int Int)
 {
 	if (Int.Sgn_Z == 1)
 		Int.Sgn_Z = 0;
@@ -191,11 +180,11 @@ t_Int MUL_ZZ_Z(t_Int Int, t_Int z_Int)
 	return res;
 }
 
-unsigned short int POZ_Z_D(t_Int Int)
+int POZ_Z_D(t_Int Int)
 {
 	bool flag = true;
-	unsigned long int i = 0;
-	unsigned short int res;
+	int i = 0;
+	int res;
 
 	if ((i < Int.Dgr_Z + 1) && (flag))
 	{
@@ -218,20 +207,17 @@ unsigned short int POZ_Z_D(t_Int Int)
 t_Int SUB_ZZ_Z(t_Int ftZ, t_Int sdZ)
 {
 	t_Int Z;
-	t_Nat N;
-
+	
 	if (COM_NN_D(ftN, sdN) == 2)
 	{
 		if (POZ_Z_D(Z1) == POZ_Z_D(Z2))
 		{
-			N = SUB_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ));
+			Z = TRANS_N_Z(SUB_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ)));
 		}
 		else
 		{
-			N = ADD_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ));
+			Z = TRANS_N_Z(ADD_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ)));
 		}
-
-		Z = TRANS_N_Z(N);
 
 		if (POZ_Z_D(Z1) == 1)
 		{
@@ -242,14 +228,12 @@ t_Int SUB_ZZ_Z(t_Int ftZ, t_Int sdZ)
 	{
 		if (POZ_Z_D(Z1) == POZ_Z_D(Z2))
 		{
-			N = SUB_NN_N(ABS_Z_N(sdZ), ABS_Z_N(ftZ));
+			Z = TRANS_N_Z(SUB_NN_N(ABS_Z_N(sdZ), ABS_Z_N(ftZ)));
 		}
 		else
 		{
-			N = ADD_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ));
+			Z = TRANS_N_Z(ADD_NN_N(ABS_Z_N(ftZ), ABS_Z_N(sdZ)));
 		}
-
-		Z = TRANS_N_Z(N);
 
 		if (POZ_Z_D(Z2) == 1)
 		{
