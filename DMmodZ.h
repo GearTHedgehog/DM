@@ -246,7 +246,7 @@ t_Int SUB_ZZ_Z(t_Int ftZ, t_Int sdZ)
 t_Int TRANS_N_Z(t_Nat t_Nat)
 {
 	t_Int Int;
-	Int.Numer_Z = (unsigned long int*)malloc((t_Nat.Dgr_N + 1) * sizeof(unsigned long int));
+	
 
 	Int.Numer_Z = t_Nat.Denom_N;
 
@@ -254,4 +254,16 @@ t_Int TRANS_N_Z(t_Nat t_Nat)
 	Int.Sgn_Z = 0;
 
 	return Int;
+}
+
+t_Int TRANS_Z_N(t_Int Int)
+{
+	t_Nat Nat;
+	
+
+	Nat.Denom_N = Int.Denom_N;
+
+	Nat.Dgr_Z = Nat.Dgr_N;
+
+	return Nat;
 }
