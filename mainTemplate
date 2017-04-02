@@ -1,0 +1,172 @@
+#include <gear.h>
+#include <DM/DMdt.h>
+
+t_Poli inMnch()
+{
+	int i, j;
+	char sign;
+	t_Poli polEx;
+	puts ("IN STARSHAYA STEPEN EPTA");
+	scanf ("%d", &polEx.m);
+	polEx.koefP = malloc(sizeof(t_Rat)*(polEx.m + 1));
+	puts ("IN KOEFP");
+	for (i = polEx.m; i >= 0; i--)
+	{
+		puts ("IN NUMZP"); scanf ("%d", &(polEx.koefP[i].Dgr_Z)); getc(stdin); 
+		polEx.koefP[i].Numer_Z = malloc (polEx.koefP[i].Dgr_Z * 4);
+		puts ("IN SIGNP");
+		sign = getchar();
+		if (sign == '-') { polEx.koefP[i].Sgn_Z = 1; } elif (sign == '+') { polEx.koefP[i].Sgn_Z = 0; }
+		puts ("IN KOEFZP");
+		for (j = polEx.koefP[i].Dgr_Z; j > 0; j--)
+		{
+			scanf("%d", &(polEx.koefP[i].Numer_Z[j]));
+		}
+		puts ("IN NUMNP"); scanf ("%d", &(polEx.koefP[i].Dgr_N));
+		polEx.koefP[i].Denom_N = malloc (polEx.koefP[i].Dgr_N * 4);
+		puts ("IN KOEFNP");
+		for (j = polEx.koefP[i].Dgr_N; j > 0; j--)
+		{
+			scanf("%d", &polEx.koefP[i].Denom_N[j]);
+		}
+	}
+	return polEx;
+}
+
+void outMnch (t_Poli polEx)
+{
+	int i, j;
+	puts ("THIS IS MNOGO4LEN");
+	for (i = polEx.m; i >= 0; i--)
+	{
+		if (polEx.koefP[i].Sgn_Z == 1) { putchar('-'); }
+		for (j = polEx.koefP[i].Dgr_Z; j > 0; j--)
+		{
+			printf ("%d", polEx.koefP[i].Numer_Z[j]);
+		}
+		putchar ('/');
+		for (j = polEx.koefP[i].Dgr_N; j > 0; j--)
+		{
+			printf ("%d", polEx.koefP[i].Denom_N[j]);
+		}
+		if (i != 0) { printf("*x^%d + ", i); }
+	}
+	putchar('\n');
+}
+
+
+void main()
+{
+	int i;
+	char sign;
+	t_Nat natEx1, natEx2;
+	t_Int intEx1, intEx2;
+	t_Rat ratEx1, ratEx2;
+	t_Poli polEx1, polEx2;
+	puts ("IN NUMN1"); scanf ("%d", &(natEx1.Dgr_N)); printf ("NUMN1 = %d\n", natEx1.Dgr_N);
+	puts ("IN NUMN2"); scanf ("%d", &(natEx2.Dgr_N)); printf ("NUMN2 = %d\n", natEx2.Dgr_N);
+	natEx1.Denom_N = malloc (natEx1.Dgr_N * 4);
+	natEx2.Denom_N = malloc (natEx2.Dgr_N * 4);
+	puts ("IN KOEFN1");
+	for (i = natEx1.Dgr_N; i > 0; i--)
+	{
+		scanf("%d", &natEx1.Denom_N[i]);
+	}
+	puts ("IN KOEFN2");
+	for (i = natEx2.Dgr_N; i > 0; i--)
+	{
+		scanf("%d", &natEx2.Denom_N[i]);
+	}
+	puts ("THIS IS NATEX1:");
+	for (i = natEx1.Dgr_N; i > 0; i--)
+	{
+		printf ("%d", natEx1.Denom_N[i]);
+	}
+	putchar('\n');
+	puts ("THIS IS NATEX2:");
+	for (i = natEx2.Dgr_N; i > 0; i--)
+	{
+		printf ("%d", natEx2.Denom_N[i]);
+	}
+	putchar('\n');
+	puts ("IN NUMZ1"); scanf ("%d", &(intEx1.Dgr_Z)); getc(stdin); printf ("NUMZ = %d\n", intEx1.Dgr_Z);
+	puts ("IN NUMZ2"); scanf ("%d", &(intEx2.Dgr_Z)); getc(stdin); printf ("NUMZ = %d\n", intEx2.Dgr_Z);
+	intEx1.Numer_Z = malloc (intEx1.Dgr_Z * 4);
+	intEx2.Numer_Z = malloc (intEx2.Dgr_Z * 4);
+	puts ("IN SIGN1");
+	sign = getchar(); getchar();
+	if (sign == '-') { intEx1.Sgn_Z = 1; } elif (sign == '+') { intEx1.Sgn_Z = 0; }
+	puts ("IN SIGN2");
+	sign = getchar();
+	if (sign == '-') { intEx2.Sgn_Z = 1; } elif (sign == '+') { intEx2.Sgn_Z = 0; }
+	puts ("IN KOEFZ1");
+	for (i = intEx1.Dgr_Z; i > 0; i--)
+	{
+		scanf("%d", &intEx1.Numer_Z[i]);
+	}
+	puts ("IN KOEFZ2");
+	for (i = intEx2.Dgr_Z; i > 0; i--)
+	{
+		scanf("%d", &intEx2.Numer_Z[i]);
+	}
+	puts ("THIS IS INTEX1:");
+	if (intEx1.Sgn_Z == 1) { putchar('-'); }
+	for (i = intEx1.Dgr_Z; i > 0; i--)
+	{
+		printf ("%d", intEx1.Numer_Z[i]);
+	}
+	putchar('\n');
+	puts ("THIS IS INTEX2:");
+	if (intEx2.Sgn_Z == 1) { putchar('-'); }
+	for (i = intEx2.Dgr_Z; i > 0; i--)
+	{
+		printf ("%d", intEx2.Numer_Z[i]);
+	}
+	putchar('\n');
+	puts ("THIS IS RATEX1 USING INTEX1 AND NATEX1 AS NOMINATOR AND DENOMINATOR RESPECTIVELY");
+	ratEx1.Numer_Z = intEx1.Numer_Z;
+	ratEx1.Dgr_Z = intEx1.Dgr_Z;
+	ratEx1.Sgn_Z = intEx1.Sgn_Z;
+	ratEx1.Denom_N = natEx1.Denom_N;
+	ratEx1.Dgr_N = natEx1.Dgr_N;
+	if (ratEx1.Sgn_Z == 1) { putchar('-'); }
+	for (i = ratEx1.Dgr_Z; i > 0; i--)
+	{
+		printf ("%d", ratEx1.Numer_Z[i]);
+	}
+	putchar ('/');
+	for (i = ratEx1.Dgr_N; i > 0; i--)
+	{
+		printf ("%d", ratEx1.Denom_N[i]);
+	}
+	putchar('\n');
+	puts ("THIS IS RATEX2 USING INTEX2 AND NATEX2 AS NOMINATOR AND DENOMINATOR RESPECTIVELY");
+	ratEx2.Numer_Z = intEx2.Numer_Z;
+	ratEx2.Dgr_Z = intEx2.Dgr_Z;
+	ratEx2.Sgn_Z = intEx2.Sgn_Z;
+	ratEx2.Denom_N = natEx2.Denom_N;
+	ratEx2.Dgr_N = natEx2.Dgr_N;
+	if (ratEx2.Sgn_Z == 1) { putchar('-'); }
+	for (i = ratEx2.Dgr_Z; i > 0; i--)
+	{
+		printf ("%d", ratEx2.Numer_Z[i]);
+	}
+	putchar ('/');
+	for (i = ratEx2.Dgr_N; i > 0; i--)
+	{
+		printf ("%d", ratEx2.Denom_N[i]);
+	}
+	putchar('\n');
+	puts("1ST MNOGO4LEN INPUT BEGIN!");
+	polEx1 = inMnch();
+	puts("2ND MNOGO4LEN INPUT BEGIN!");
+	polEx2 = inMnch();
+	puts("1ST VIVOD BEGIN!");
+	outMnch(polEx1);
+	puts("2ND VIVOD BEGIN!");
+	outMnch(polEx2);
+	
+	//НАЧИНАТЬ ПИСАТЬ КОТА ДЛЯ ТЕСТА ОТСЮДА!
+
+
+}
