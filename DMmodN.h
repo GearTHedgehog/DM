@@ -1,50 +1,41 @@
-#include <iostream>
-#include "conio.h"
-#include <C:\Users\Extranet\Desktop\DM_6305_KL-master\DMdt.h>
-using namespace std;
-
-/*typedef struct N { //Структура содержит данные о длинном натуральном числе
-	int Dgr_N; //Старший разряд числа
-	int *Denom_N; //Массив цифр
-}N;*/
-void num_out(t_Int Num) {
+void num_out(t_Nat Num) {
 	int i;
-	for (i = Num.Dgr_N; i >= 0; i--) cout << Num.Denom_N[i];
-	//cout << endl;
+	for (i = Num.Dgr_N; i >= 0; i--) 
+		printf("%d", Num.Denom_N[i]);
 }
-t_Int num_cpy(t_Int Num) {
+t_Nat num_cpy(t_Nat Num) {
 	int i;
-	t_Int new_Num;
+	t_Nat new_Num;
 	new_Num.Dgr_N = Num.Dgr_N;
-	new_Num.Denom_N = NULL;
+	new_Num.Denom_N = malloc(1);
 	for (i = 0; i <= Num.Dgr_N; i++) {
 		new_Num.Denom_N = (int*)realloc(new_Num.Denom_N, (i + 1) * sizeof(int));
 		new_Num.Denom_N[i] = Num.Denom_N[i];
 	}
 	return new_Num;
 }
-int COM_NN_D(t_Int Num1, t_Int Num2) { //Модуль N1. Разработал Буракаев Данияр.Затраченное время : ~15 минут 
+int COM_NN_D(t_Nat Num1, t_Nat Num2) { //РњРѕРґСѓР»СЊ N1. Р Р°Р·СЂР°Р±РѕС‚Р°Р» Р‘СѓСЂР°РєР°РµРІ Р”Р°РЅРёСЏСЂ.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ : ~15 РјРёРЅСѓС‚ 
 	int i;
-	if (Num1.Dgr_N > Num2.Dgr_N) return 2; //Если в первом числе больше старший разряд , то оно больше
-	else if (Num1.Dgr_N == Num2.Dgr_N) { // Если старшие разряды равны , то сравниваем цифры
-		i = Num1.Dgr_N; //Начиная со старшего разряда
-		while (i != (-1)) { //Пока разряды не закончились
-			if (Num1.Denom_N[i] > Num2.Denom_N[i]) { return 2; } //Если первая их различная цифра у первого больше , то больше первое 
-			else if (Num2.Denom_N[i] > Num1.Denom_N[i]) { return 1; } //Если у второго , то второе
+	if (Num1.Dgr_N > Num2.Dgr_N) return 2; //Р•СЃР»Рё РІ РїРµСЂРІРѕРј С‡РёСЃР»Рµ Р±РѕР»СЊС€Рµ СЃС‚Р°СЂС€РёР№ СЂР°Р·СЂСЏРґ , С‚Рѕ РѕРЅРѕ Р±РѕР»СЊС€Рµ
+	else if (Num1.Dgr_N == Num2.Dgr_N) { // Р•СЃР»Рё СЃС‚Р°СЂС€РёРµ СЂР°Р·СЂСЏРґС‹ СЂР°РІРЅС‹ , С‚Рѕ СЃСЂР°РІРЅРёРІР°РµРј С†РёС„СЂС‹
+		i = Num1.Dgr_N; //РќР°С‡РёРЅР°СЏ СЃРѕ СЃС‚Р°СЂС€РµРіРѕ СЂР°Р·СЂСЏРґР°
+		while (i != (-1)) { //РџРѕРєР° СЂР°Р·СЂСЏРґС‹ РЅРµ Р·Р°РєРѕРЅС‡РёР»РёСЃСЊ
+			if (Num1.Denom_N[i] > Num2.Denom_N[i]) { return 2; } //Р•СЃР»Рё РїРµСЂРІР°СЏ РёС… СЂР°Р·Р»РёС‡РЅР°СЏ С†РёС„СЂР° Сѓ РїРµСЂРІРѕРіРѕ Р±РѕР»СЊС€Рµ , С‚Рѕ Р±РѕР»СЊС€Рµ РїРµСЂРІРѕРµ 
+			else if (Num2.Denom_N[i] > Num1.Denom_N[i]) { return 1; } //Р•СЃР»Рё Сѓ РІС‚РѕСЂРѕРіРѕ , С‚Рѕ РІС‚РѕСЂРѕРµ
 			else { i--; }
 		}
-		return 0; // Если все цифры равны , то и числа равны
+		return 0; // Р•СЃР»Рё РІСЃРµ С†РёС„СЂС‹ СЂР°РІРЅС‹ , С‚Рѕ Рё С‡РёСЃР»Р° СЂР°РІРЅС‹
 	}
-	else return 1;//Если старший разряд больше во втором числе , то больше второе
+	else return 1;//Р•СЃР»Рё СЃС‚Р°СЂС€РёР№ СЂР°Р·СЂСЏРґ Р±РѕР»СЊС€Рµ РІРѕ РІС‚РѕСЂРѕРј С‡РёСЃР»Рµ , С‚Рѕ Р±РѕР»СЊС€Рµ РІС‚РѕСЂРѕРµ
 }
 
-int NZER_N_B(t_Int Num) { //Модуль N2. Разработал Сапожников Евгений. Затраченное время : ~8 минут Проверено
-	if (Num.Denom_N[Num.Dgr_N] == 0) return 0; //Если цифра в старшем разряде равна нулю , то число равно нулю
-	else return 1; //Иначе не ноль
+int NZER_N_B(t_Nat Num) { //РњРѕРґСѓР»СЊ N2. Р Р°Р·СЂР°Р±РѕС‚Р°Р» РЎР°РїРѕР¶РЅРёРєРѕРІ Р•РІРіРµРЅРёР№. Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ : ~8 РјРёРЅСѓС‚ РџСЂРѕРІРµСЂРµРЅРѕ
+	if (Num.Denom_N[Num.Dgr_N] == 0) return 0; //Р•СЃР»Рё С†РёС„СЂР° РІ СЃС‚Р°СЂС€РµРј СЂР°Р·СЂСЏРґРµ СЂР°РІРЅР° РЅСѓР»СЋ , С‚Рѕ С‡РёСЃР»Рѕ СЂР°РІРЅРѕ РЅСѓР»СЋ
+	else return 1; //РРЅР°С‡Рµ РЅРµ РЅРѕР»СЊ
 }
 
-t_Int ADD_1N_N(t_Int Num) {//Модуль N3 Разработала Таиссия Смирнова.Затраченное время ~1,5 часа
-	t_Int new_Num;
+t_Nat ADD_1N_N(t_Nat Num) {//РњРѕРґСѓР»СЊ N3 Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° РўР°РёСЃСЃРёСЏ РЎРјРёСЂРЅРѕРІР°.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~1,5 С‡Р°СЃР°
+	t_Nat new_Num;
 	int time = 0;
 	int flag, i;
 	new_Num.Dgr_N = Num.Dgr_N;
@@ -74,9 +65,9 @@ t_Int ADD_1N_N(t_Int Num) {//Модуль N3 Разработала Таиссия Смирнова.Затраченное 
 	return new_Num;
 }
 
-t_Int ADD_NN_N(t_Int Num1, t_Int Num2) { //Модуль N4 . Разработал Буракаев Данияр . Затраченное время ~45 минут
-	t_Int Num3, time;
-	int i, max, min, flag;
+t_Nat ADD_NN_N(t_Nat Num1, t_Nat Num2) { //РњРѕРґСѓР»СЊ N4 . Р Р°Р·СЂР°Р±РѕС‚Р°Р» Р‘СѓСЂР°РєР°РµРІ Р”Р°РЅРёСЏСЂ . Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~45 РјРёРЅСѓС‚
+	t_Nat Num3, time;
+	int i, flag;
 	flag = COM_NN_D(Num1, Num2);
 	if (flag == 1) {
 		time = Num2;
@@ -84,7 +75,7 @@ t_Int ADD_NN_N(t_Int Num1, t_Int Num2) { //Модуль N4 . Разработал Буракаев Дания
 		Num1 = time;
 	}
 	Num3 = num_cpy(Num1);
-	Num3.Denom_N = (int*)realloc(Num3.Denom_N, (Num3.Dgr_N + 1) * sizeof(int));
+	Num3.Denom_N = (int*)realloc(Num3.Denom_N, (Num3.Dgr_N + 2) * sizeof(int));
 	Num3.Denom_N[(Num3.Dgr_N + 1)] = 0;
 	Num3.Dgr_N++;
 	i = 0;
@@ -97,16 +88,16 @@ t_Int ADD_NN_N(t_Int Num1, t_Int Num2) { //Модуль N4 . Разработал Буракаев Дания
 		i++;
 	}
 	if (Num3.Denom_N[Num3.Dgr_N] == 0) {
-		Num3.Denom_N = (int*)realloc(Num3.Denom_N, (Num3.Dgr_N) * sizeof(int));
+		Num3.Denom_N = (int*)realloc(Num3.Denom_N, Num3.Dgr_N * 4);
 		Num3.Dgr_N--;
 	}
 
 	return Num3;
 }
 
-t_Int SUB_NN_N(t_Int Num1, t_Int Num2) {//Модуль N5. Разработал Евгений Сапожников.Затраченное время ~25 минут
+t_Nat SUB_NN_N(t_Nat Num1, t_Nat Num2) {//РњРѕРґСѓР»СЊ N5. Р Р°Р·СЂР°Р±РѕС‚Р°Р» Р•РІРіРµРЅРёР№ РЎР°РїРѕР¶РЅРёРєРѕРІ.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~25 РјРёРЅСѓС‚
 	int flag, i, j;
-	t_Int new_Num;
+	t_Nat new_Num;
 	new_Num.Dgr_N = Num1.Dgr_N;
 	new_Num.Denom_N = NULL;
 	for (i = 0; i <= Num1.Dgr_N; i++) {
@@ -124,30 +115,22 @@ t_Int SUB_NN_N(t_Int Num1, t_Int Num2) {//Модуль N5. Разработал Евгений Сапожник
 	else {
 		i = 0;
 		while (i <= Num2.Dgr_N) {
-			//cout << 2 << endl;
 			if (new_Num.Denom_N[i] < Num2.Denom_N[i]) {
 				j = i;
-				//	cout << "j=" << j << endl;
 				do {
 					new_Num.Denom_N[j] += 10;
 					new_Num.Denom_N[j + 1]--;
 					j++;
-					//cout << 1 << endl;
 				} while (new_Num.Denom_N[j] < 0);
-				//cout << "j=" << j << endl;
-				//new_Num.Denom_N[j] --;
 				if (new_Num.Denom_N[new_Num.Dgr_N] <= 0)
 				{
 					new_Num.Dgr_N--;
 				}
-				//new_Num.Denom_N=(int*)realloc(new_Num.Denom_N,(new_Num.Dgr_N+1)*sizeof(int));
 			}
 			new_Num.Denom_N[i] -= Num2.Denom_N[i];
 			i++;
 		}
 
-		//new_Num.Denom_N[i + 1]--;
-		//new_Num.Denom_N[i] += 10;
 	}
 	//getch();
 	return new_Num;
@@ -155,9 +138,9 @@ t_Int SUB_NN_N(t_Int Num1, t_Int Num2) {//Модуль N5. Разработал Евгений Сапожник
 
 
 
-t_Int MUL_ND_N(t_Int Num, int  digit) {//Модуль N6 . Разработала Таисия Смирнова . Затраченное время ~1 час
+t_Nat MUL_ND_N(t_Nat Num, int  digit) {//РњРѕРґСѓР»СЊ N6 . Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° РўР°РёСЃРёСЏ РЎРјРёСЂРЅРѕРІР° . Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~1 С‡Р°СЃ
 	int i, time = 0, flag = 0;
-	t_Int new_Num;
+	t_Nat new_Num;
 	new_Num.Dgr_N = Num.Dgr_N;
 	new_Num.Denom_N = NULL;
 	for (i = 0; i <= Num.Dgr_N; i++) {
@@ -185,8 +168,8 @@ t_Int MUL_ND_N(t_Int Num, int  digit) {//Модуль N6 . Разработала Таисия Смирнова
 }
 
 
-t_Int MUL_Nk_N(t_Int Num, int deg) { //Модуль N7. Разработал Буракаев Данияр. Затраченное время ~10 минут
-	t_Int new_Num;
+t_Nat MUL_Nk_N(t_Nat Num, int deg) { //РњРѕРґСѓР»СЊ N7. Р Р°Р·СЂР°Р±РѕС‚Р°Р» Р‘СѓСЂР°РєР°РµРІ Р”Р°РЅРёСЏСЂ. Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~10 РјРёРЅСѓС‚
+	t_Nat new_Num;
 	int i;
 	new_Num.Dgr_N = Num.Dgr_N + deg;
 	new_Num.Denom_N = (int*)malloc((new_Num.Dgr_N + deg + 1) * sizeof(int));
@@ -203,28 +186,24 @@ t_Int MUL_Nk_N(t_Int Num, int deg) { //Модуль N7. Разработал Буракаев Данияр. За
 	return new_Num;
 }
 
-t_Int MUL_NN_N(t_Int Num1, t_Int Num2) {//Модуль N8 . Разработал Евгений Гонштейн.Затраченное время ~5 минут
-	int i = 0, j;
-	t_Int Num3, p, p1, p2;
+t_Nat MUL_NN_N(t_Nat Num1, t_Nat Num2) {//РњРѕРґСѓР»СЊ N8 . Р Р°Р·СЂР°Р±РѕС‚Р°Р» Р•РІРіРµРЅРёР№ Р“РѕРЅС€С‚РµР№РЅ.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~5 РјРёРЅСѓС‚
+	int i = 0;
+	t_Nat Num3, p, p1, p2;
 	Num3.Denom_N = (int*)malloc(sizeof(int));
 	Num3.Denom_N[0] = 0;
 	Num3.Dgr_N = 0;
 	while (i <= Num2.Dgr_N) {
 		p2 = MUL_ND_N(Num1, Num2.Denom_N[i]);
-		/*for (j = p2.Dgr_N; j >= 0; j--) cout << p2.Denom_N[j];
-		cout << endl;*/
 		p1 = MUL_Nk_N(p2, i);
-		/*for (j = p1.Dgr_N; j >= 0; j--) cout << p1.Denom_N[j];
-		cout << endl;*/
 		Num3 = ADD_NN_N(Num3, p1);
 		i++;
 	}
 	return Num3;
 }
 
-t_Int SUB_NDN_N(t_Int Num1, t_Int Num2, int digit) {//Модуль N9. Разработала Таисия Смирнова.Затраченное время ~1,5 часа
+t_Nat SUB_NDN_N(t_Nat Num1, t_Nat Num2, int digit) {//РњРѕРґСѓР»СЊ N9. Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° РўР°РёСЃРёСЏ РЎРјРёСЂРЅРѕРІР°.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~1,5 С‡Р°СЃР°
 	int flag, i;
-	t_Int new_Num2, new_Num;
+	t_Nat new_Num2, new_Num;
 	new_Num2 = MUL_ND_N(Num2, digit);
 	if (COM_NN_D(Num1, new_Num2) == 1) {
 		new_Num.Denom_N = (int*)malloc(sizeof(int));
@@ -237,9 +216,9 @@ t_Int SUB_NDN_N(t_Int Num1, t_Int Num2, int digit) {//Модуль N9. Разработала Таи
 	return new_Num;
 }
 
-int DIV_NN_Dk(t_Int Num1, t_Int Num2, int k) {//N10 Разработала Анна Тарасова. Затраченное время ~20 минут
+int DIV_NN_Dk(t_Nat Num1, t_Nat Num2, int k) {//N10 Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° РђРЅРЅР° РўР°СЂР°СЃРѕРІР°. Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~20 РјРёРЅСѓС‚
 	int j, i, result;
-	t_Int q, Num3;
+	t_Nat q, Num3;
 	q.Dgr_N = 0;
 	q.Denom_N = (int*)malloc(sizeof(int));
 	q.Denom_N[0] = 0;
@@ -270,8 +249,8 @@ int DIV_NN_Dk(t_Int Num1, t_Int Num2, int k) {//N10 Разработала Анна Тарасова. З
 	return result;
 }
 
-t_Int DIV_NN_N(t_Int Num1, t_Int Num2) { //Модуль N11 Разработала Вдовиченко Лера.Затраченное время ~40 минут
-	t_Int q;
+t_Nat DIV_NN_N(t_Nat Num1, t_Nat Num2) { //РњРѕРґСѓР»СЊ N11 Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° Р’РґРѕРІРёС‡РµРЅРєРѕ Р›РµСЂР°.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~40 РјРёРЅСѓС‚
+	t_Nat q;
 	int i;
 	if (COM_NN_D(Num1, Num2) != 1) {
 		q.Dgr_N = Num1.Dgr_N - Num2.Dgr_N;
@@ -292,8 +271,8 @@ t_Int DIV_NN_N(t_Int Num1, t_Int Num2) { //Модуль N11 Разработала Вдовиченко Лер
 	return q;
 }
 
-t_Int MOD_NN_N(t_Int Num1, t_Int Num2) {//Модуль N12 . Разработала Вдовиченко Лера.Затраченное время ~10 минут.
-	t_Int r;
+t_Nat MOD_NN_N(t_Nat Num1, t_Nat Num2) {//РњРѕРґСѓР»СЊ N12 . Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° Р’РґРѕРІРёС‡РµРЅРєРѕ Р›РµСЂР°.Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~10 РјРёРЅСѓС‚.
+	t_Nat r;
 	if (COM_NN_D(Num1, Num2) != 1) {
 		r.Dgr_N = 0;
 		r.Denom_N = (int*)malloc(sizeof(int));
@@ -307,8 +286,8 @@ t_Int MOD_NN_N(t_Int Num1, t_Int Num2) {//Модуль N12 . Разработала Вдовиченко Ле
 	else r = num_cpy(Num1);
 	return r;
 }
-t_Int GCF_NN_N(t_Int Num1, t_Int Num2) { //Модуль N13 . Разработала Вдовиченко Лера. Затраченное время ~15 минут.
-	t_Int NOD, new_Num1, new_Num2;
+t_Nat GCF_NN_N(t_Nat Num1, t_Nat Num2) { //РњРѕРґСѓР»СЊ N13 . Р Р°Р·СЂР°Р±РѕС‚Р°Р»Р° Р’РґРѕРІРёС‡РµРЅРєРѕ Р›РµСЂР°. Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~15 РјРёРЅСѓС‚.
+	t_Nat NOD, new_Num1, new_Num2;
 	new_Num1 = num_cpy(Num1);
 	new_Num2 = num_cpy(Num2);
 
@@ -330,8 +309,8 @@ t_Int GCF_NN_N(t_Int Num1, t_Int Num2) { //Модуль N13 . Разработала Вдовиченко Л
 	return NOD;
 }
 
-t_Int LCM_NN_N(t_Int Num1, t_Int Num2) {//N14 Разработал Побежимов Александр. Затраченное время ~5 минут.
-	t_Int NOK, NOD;
+t_Nat LCM_NN_N(t_Nat Num1, t_Nat Num2) {//N14 Р Р°Р·СЂР°Р±РѕС‚Р°Р» РџРѕР±РµР¶РёРјРѕРІ РђР»РµРєСЃР°РЅРґСЂ. Р—Р°С‚СЂР°С‡РµРЅРЅРѕРµ РІСЂРµРјСЏ ~5 РјРёРЅСѓС‚.
+	t_Nat NOK, NOD;
 	NOD = GCF_NN_N(Num1, Num2);
 	NOK = DIV_NN_N(MUL_NN_N(Num1, Num2), NOD);
 	return NOK;
