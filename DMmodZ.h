@@ -29,7 +29,6 @@ t_Int MUL_ZM_Z(t_Int Int)
 t_Int TRANS_N_Z(t_Nat Nat)
 {
 	t_Int Int;
-	
 
 	Int.Numer_Z = Nat.Denom_N;
 
@@ -149,7 +148,7 @@ t_Int MUL_ZZ_Z(t_Int Int, t_Int z_Int)
 	t_Int res;
 
 	res = TRANS_N_Z (MUL_NN_N(ABS_Z_N(Int), ABS_Z_N(z_Int)));
-	if (POZ_Z_D(Int) == POZ_Z_D(z_Int))
+	if (POZ_Z_D(Int) == POZ_Z_D(z_Int) || POZ_Z_D(z_Int) == 0 || POZ_Z_D(Int) == 0)
 		res.Sgn_Z = 0;
 	else
 		res.Sgn_Z = 1;
