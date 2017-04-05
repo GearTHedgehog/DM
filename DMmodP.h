@@ -2,15 +2,6 @@ t_Rat POWER_Q(t_Rat, int);
 int COM_QQ_I(t_Rat, t_Rat);
 int COM_PP_I(t_Poli, t_Poli);
 
-/*t_Rat ZERO;
-	ZERO.Numer.Dgr_Z = 0;
-	ZERO.Denom.Dgr_N = 0;
-	ZERO.Numer.Sgn_Z = 0;
-	ZERO.Numer.Numer_Z = malloc(4);
-	ZERO.Denom.Denom_N = malloc(4);
-	ZERO.Numer.Numer_Z[0] = 0;
-	ZERO.Denom.Denom_N[0] = 1;*/
-	
 void outMnch1 (t_Poli polEx)
 {
 	int i, j;
@@ -59,7 +50,6 @@ t_Poli ADD_PP_P(t_Poli p1, t_Poli p2)
 		result.koefP = (t_Rat*)malloc(sizeof(t_Rat) * (p1.m + 1));
 		for (i = 0; i <= p2.m; i++)
 		{
-			//printf("ADD_QQ_Q RES IN ADD_PP_P = "); outRat1(ADD_QQ_Q(p1.koefP[i], p2.koefP[i]));
 			result.koefP[i] = ADD_QQ_Q(p1.koefP[i], p2.koefP[i]);
 		}
 		for (j = i; j <= p1.m; j++)
@@ -144,10 +134,6 @@ t_Poli MUL_Pxk_P(t_Poli p, int xk)
 	for (i = 0; i < xk; i++)
 	{
 		result.koefP[i] = ZERO;
-		/*for (i = p.koefP[j].Numer.Dgr_Z; i >= 0; i--)
-		{
-			result.koefP[j].Numer.Numer_Z[i] = 0;
-		}*/
 	}
 	for (i = xk, j = 0; i <= result.m; i++, j++)
 	{
@@ -274,7 +260,7 @@ t_Poli GCF_PP_P(t_Poli p1, t_Poli p2)
 		p1 = p2;
 		p2 = temp;
 	}
-	while (DEG_P_N(p2) != 0 || p2.koefP[0].Numer.Numer_Z[p2.koefP[0].Numer.Dgr_Z - 1] != 0)
+	while (DEG_P_N(p2) != 0 || p2.koefP[0].Numer.Numer_Z[p2.koefP[0].Numer.Dgr_Z] != 0)
 	{
 		temp = p2;
 		p2 = MOD_PP_P(p1, p2);
@@ -286,7 +272,7 @@ t_Poli GCF_PP_P(t_Poli p1, t_Poli p2)
 t_Poli DER_P_P(t_Poli p)
 {
 	int i, j;
-	t_Rat I, ONE, ZERO;
+	t_Rat I, ONE;
 	t_Poli temp;
 	temp.m = p.m;
 	temp.koefP = (t_Rat*)malloc(sizeof(t_Rat) * (temp.m + 1));
@@ -294,13 +280,6 @@ t_Poli DER_P_P(t_Poli p)
 	{
 		temp.koefP[i] = p.koefP[i];
 	}
-	ZERO.Numer.Dgr_Z = 0;
-	ZERO.Denom.Dgr_N = 0;
-	ZERO.Numer.Sgn_Z = 0;
-	ZERO.Numer.Numer_Z = malloc(4);
-	ZERO.Denom.Denom_N = malloc(4);
-	ZERO.Numer.Numer_Z[0] = 0;
-	ZERO.Denom.Denom_N[0] = 1;
 	ONE.Numer.Dgr_Z = 0;
 	ONE.Denom.Dgr_N = 0;
 	ONE.Numer.Sgn_Z = 0;
@@ -319,61 +298,21 @@ t_Poli DER_P_P(t_Poli p)
 	return temp;
 }
 
-t_Poli NMR_P_P(t_Poli p, t_Poli r)
+t_Poli NMR_P_P(t_Poli p)
 {
-	int i, j;
-	t_Poli df, L;
-	t_Rat sum, ONE, ZERO;
-	t_Poli temp;
-	temp.m = p.m;
-	temp.koefP = (t_Rat*)malloc(sizeof(t_Rat) * (temp.m + 1));
-	for (i = 0; i <= temp.m; i++)
-	{
-		temp.koefP[i] = p.koefP[i];
-	}
-	ONE.Numer.Dgr_Z = 0;
-	ONE.Denom.Dgr_N = 0;
-	ONE.Numer.Sgn_Z = 0;
-	ONE.Numer.Numer_Z = malloc(4);
-	ONE.Denom.Denom_N = malloc(4);
-	ONE.Numer.Numer_Z[0] = 1;
-	ONE.Denom.Denom_N[0] = 1;
-	df = DER_P_P(temp);
-	for (i = 0; i <= r.m; i++)
-	{
-		sum.Numer.Sgn_Z = 0;
-		sum.Numer.Numer_Z = malloc(4);
-		sum.Numer.Numer_Z[0] = 0;
-		sum.Numer.Dgr_Z = 0;
-		sum.Denom.Denom_N = malloc(4);
-		sum.Denom.Denom_N[0] = 1;
-		sum.Denom.Dgr_N = 0;
-		for (j = df.m; j >= 0; j--)
-		{
-			sum = ADD_QQ_Q(sum, MUL_QQ_Q(df.koefP[j], POWER_Q(r.koefP[i], j)));
-		}
-		L.m = 1;
-		L.koefP = (t_Rat*)malloc(sizeof(t_Rat) * (L.m + 1));
-		r.koefP[i].Numer = MUL_ZM_Z(r.koefP[i].Numer);
-		L.koefP[0] = r.koefP[i];
-		L.koefP[1] = ONE;
-		if (sum.Numer.Numer_Z[sum.Numer.Dgr_Z] == 0)
-		{
-			do
-			{
-				temp = DIV_PP_P(temp, L);
-			} while (!COM_PP_I(GCF_PP_P(temp, L), L));
-		}
-	}
-	return p;
+	t_Poli res;
+	res = DIV_PP_P(p, GCF_PP_P(p, DER_P_P(p)));
+	return res;
 }
 
 t_Rat POWER_Q(t_Rat q, int power)
 {
 	int i;
+	t_Rat mult;
+	mult = q;
 	for (i = 1; i < power; i++)
 	{
-		q = MUL_QQ_Q(q, q);
+		q = MUL_QQ_Q(q, mult);
 	}
 	return q;
 }
@@ -390,6 +329,7 @@ int COM_QQ_I(t_Rat q1, t_Rat q2)
 	elif(COM_NN_D(ABS_Z_N(res1), ABS_Z_N(res2)) == 1 && q1.Numer.Sgn_Z == 0) return 2;
 	elif(COM_NN_D(ABS_Z_N(res1), ABS_Z_N(res2)) == 1 && q1.Numer.Sgn_Z == 1) return 1;
 	elif(COM_NN_D(ABS_Z_N(res1), ABS_Z_N(res2)) == 0) return 0;
+	return -1;
 }
 
 int COM_PP_I(t_Poli p1, t_Poli p2)
@@ -398,7 +338,7 @@ int COM_PP_I(t_Poli p1, t_Poli p2)
 	int comRes;
 	if (p1.m == p2.m)
 	{
-		for (i = 0; i < p1.m; i++)
+		for (i = 0; i <= p1.m; i++)
 		{
 			comRes = COM_QQ_I(p1.koefP[i], p2.koefP[i]);
 			if (!comRes) continue;
