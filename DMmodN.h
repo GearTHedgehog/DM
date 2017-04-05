@@ -7,7 +7,7 @@ t_Nat num_cpy(t_Nat Num) {
 	int i;
 	t_Nat new_Num;
 	new_Num.Dgr_N = Num.Dgr_N;
-	new_Num.Denom_N = malloc(1);
+	new_Num.Denom_N = malloc(sizeof(int));
 	for (i = 0; i <= Num.Dgr_N; i++) {
 		new_Num.Denom_N = (int*)realloc(new_Num.Denom_N, (i + 1) * sizeof(int));
 		new_Num.Denom_N[i] = Num.Denom_N[i];
@@ -67,46 +67,41 @@ t_Nat ADD_1N_N(t_Nat Num) {//Модуль N3 Разработала Таисси
 
 t_Nat ADD_NN_N(t_Nat Num1, t_Nat Num2) { //Модуль N4 . Разработал Буракаев Данияр . Затраченное время ~45 минут
 	t_Nat Num3, time;
-	int i, flag;
-	flag = COM_NN_D(Num1, Num2);
-	if (flag == 1) {
+	int i;
+	if (COM_NN_D(Num1, Num2) == 1) {
 		time = Num2;
 		Num2 = Num1;
 		Num1 = time;
 	}
 	Num3 = num_cpy(Num1);
 	Num3.Denom_N = (int*)realloc(Num3.Denom_N, (Num3.Dgr_N + 2) * sizeof(int));
-	Num3.Denom_N[(Num3.Dgr_N + 1)] = 0;
-	Num3.Dgr_N++;
-	i = 0;
-	while (i != ((Num2.Dgr_N) + 1)) {
+	Num3.Denom_N[++Num3.Dgr_N] = 0;
+	for (i = 0; i < ((Num2.Dgr_N) + 1); i++) 
+	{
 		Num3.Denom_N[i] += Num2.Denom_N[i];
-		if (Num3.Denom_N[i] / 10 != 0) {
+		if (Num3.Denom_N[i] / 10 != 0) 
+		{
 			Num3.Denom_N[i + 1]++;
 			Num3.Denom_N[i] %= 10;
 		}
-		i++;
+	}
+	if (Num3.Denom_N[i] / 10 != 0) 
+	{
+		Num3.Denom_N[i + 1]++;
+		Num3.Denom_N[i] %= 10;
 	}
 	if (Num3.Denom_N[Num3.Dgr_N] == 0) {
-		Num3.Denom_N = (int*)realloc(Num3.Denom_N, Num3.Dgr_N * 4);
+		Num3.Denom_N = (int*)realloc(Num3.Denom_N, Num3.Dgr_N * sizeof(int));
 		Num3.Dgr_N--;
 	}
-
 	return Num3;
 }
 
 t_Nat SUB_NN_N(t_Nat Num1, t_Nat Num2) {//Модуль N5. Разработал Евгений Сапожников.Затраченное время ~25 минут
 	int flag, i, j;
 	t_Nat new_Num;
-	new_Num.Dgr_N = Num1.Dgr_N;
-	new_Num.Denom_N = NULL;
-	for (i = 0; i <= Num1.Dgr_N; i++) {
-		new_Num.Denom_N = (int*)realloc(new_Num.Denom_N, new_Num.Dgr_N * sizeof(int));
-		new_Num.Denom_N[i] = Num1.Denom_N[i];
-	}
-	flag = COM_NN_D(new_Num, Num2);
-	i = 0;
-	if (flag == 1) {
+	new_Num = num_cpy(Num1);
+	if (COM_NN_D(new_Num, Num2) == 1) {
 		new_Num.Denom_N = (int*)malloc(sizeof(int));
 		new_Num.Denom_N[0] = 0;
 		new_Num.Dgr_N = 0;
@@ -252,6 +247,13 @@ int DIV_NN_Dk(t_Nat Num1, t_Nat Num2, int k) {//N10 Разработала Ан�
 t_Nat DIV_NN_N(t_Nat Num1, t_Nat Num2) { //Модуль N11 Разработала Вдовиченко Лера.Затраченное время ~40 минут
 	t_Nat q;
 	int i;
+
+	/*if (NZER_N_B(Num2) == 0)
+	{
+		//вывод сообщения о невозможности деления на ноль в гуй
+		return Num2; //на самом деле похуй что возвращать, все равно это не будет использоваться
+	}*/
+
 	if (COM_NN_D(Num1, Num2) != 1) {
 		q.Dgr_N = Num1.Dgr_N - Num2.Dgr_N;
 		q.Denom_N = (int*)malloc((q.Dgr_N + 1) * sizeof(int));
@@ -279,19 +281,19 @@ t_Nat MOD_NN_N(t_Nat Num1, t_Nat Num2) {//Модуль N12 . Разработа�
 		r.Denom_N[0] = 0;
 		r = SUB_NN_N(Num1, MUL_NN_N(DIV_NN_N(Num1, Num2), Num2));
 		while (r.Denom_N[r.Dgr_N] == 0 && r.Dgr_N != 0) {
-			r.Dgr_N--;
-			r.Denom_N = (int*)realloc(r.Denom_N, (r.Dgr_N + 1) * sizeof(int));
+			r.Denom_N = (int*)realloc(r.Denom_N, (r.Dgr_N--) * sizeof(int));
 		}
 	}
 	else r = num_cpy(Num1);
 	return r;
 }
-t_Nat GCF_NN_N(t_Nat Num1, t_Nat Num2) { //Модуль N13 . Разработала Вдовиченко Лера. Затраченное время ~15 минут.
+t_Nat GCF_NN_N(t_Nat Num1, t_Nat Num2) 
+{ //Модуль N13 . Разработала Вдовиченко Лера. Затраченное время ~15 минут.
 	t_Nat NOD, new_Num1, new_Num2;
 	new_Num1 = num_cpy(Num1);
 	new_Num2 = num_cpy(Num2);
 
-	if (COM_NN_D(new_Num1, new_Num2) == 0) return  new_Num1;
+	if (COM_NN_D(new_Num1, new_Num2) == 0) return new_Num1;
 	while (NZER_N_B(new_Num1) && NZER_N_B(new_Num2)) {
 		if (COM_NN_D(new_Num1, new_Num2) == 2) {
 			new_Num1 = MOD_NN_N(new_Num1, new_Num2);
@@ -301,10 +303,10 @@ t_Nat GCF_NN_N(t_Nat Num1, t_Nat Num2) { //Модуль N13 . Разработа
 		}
 	}
 	if (NZER_N_B(new_Num1)) {
-		NOD = num_cpy(new_Num1);
+		NOD = new_Num1;
 	}
 	else {
-		NOD = num_cpy(new_Num2);
+		NOD = new_Num2;
 	}
 	return NOD;
 }
