@@ -14,6 +14,17 @@ t_Nat num_cpy(t_Nat Num) {
 	}
 	return new_Num;
 }
+
+void outNat2(t_Nat natEx)
+{
+	int i;
+	for (i = natEx.Dgr_N; i >= 0; i--)
+	{
+		printf ("%d", natEx.Denom_N[i]);
+	}
+	putchar('\n');
+}
+
 int COM_NN_D(t_Nat Num1, t_Nat Num2) { //Модуль N1. Разработал Буракаев Данияр.Затраченное время : ~15 минут 
 	int i;
 	if (Num1.Dgr_N > Num2.Dgr_N) return 2; //Если в первом числе больше старший разряд , то оно больше
@@ -101,15 +112,17 @@ t_Nat SUB_NN_N(t_Nat Num1, t_Nat Num2) {//Модуль N5. Разработал 
 	int flag, i, j;
 	t_Nat new_Num;
 	new_Num = num_cpy(Num1);
-	if (COM_NN_D(new_Num, Num2) == 1) {
+	if (COM_NN_D(new_Num, Num2) == 0 || COM_NN_D(new_Num, Num2) == 1) {
 		new_Num.Denom_N = (int*)malloc(sizeof(int));
 		new_Num.Denom_N[0] = 0;
 		new_Num.Dgr_N = 0;
 		return new_Num;
 	}
-	else {
+	else 
+	{
 		i = 0;
-		while (i <= Num2.Dgr_N) {
+		while (i <= Num2.Dgr_N) 
+		{
 			if (new_Num.Denom_N[i] < Num2.Denom_N[i]) {
 				j = i;
 				do {
@@ -117,17 +130,16 @@ t_Nat SUB_NN_N(t_Nat Num1, t_Nat Num2) {//Модуль N5. Разработал 
 					new_Num.Denom_N[j + 1]--;
 					j++;
 				} while (new_Num.Denom_N[j] < 0);
-				if (new_Num.Denom_N[new_Num.Dgr_N] <= 0)
-				{
-					new_Num.Dgr_N--;
-				}
 			}
 			new_Num.Denom_N[i] -= Num2.Denom_N[i];
 			i++;
 		}
-
+		while (new_Num.Denom_N[new_Num.Dgr_N] == 0)
+		{
+			new_Num.Denom_N = (int*) realloc (new_Num.Denom_N, sizeof(int) * new_Num.Dgr_N--);
+		}
+		
 	}
-	//getch();
 	return new_Num;
 }
 
