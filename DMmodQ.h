@@ -8,6 +8,43 @@ t_Rat SUB_QQ_Q(t_Rat ftQ, t_Rat sdQ);
 t_Rat MUL_QQ_Q(t_Rat ftQ, t_Rat sdQ);
 t_Rat DIV_QQ_Q(t_Rat ftQ, t_Rat sdQ);
 
+void outRat2(t_Rat ratEx)
+{
+	int i;
+	if (ratEx.Numer.Sgn_Z == 1) { putchar('-'); }
+	for (i = ratEx.Numer.Dgr_Z; i >= 0; i--)
+	{
+		printf ("%d", ratEx.Numer.Numer_Z[i]);
+	}
+	putchar ('/');
+	for (i = ratEx.Denom.Dgr_N; i >= 0; i--)
+	{
+		printf ("%d", ratEx.Denom.Denom_N[i]);
+	}
+	putchar('\n');
+}
+
+void outInt1(t_Int intEx)
+{
+	int i;
+	if (intEx.Sgn_Z == 1) { putchar('-'); }
+	for (i = intEx.Dgr_Z; i >= 0; i--)
+	{
+		printf ("%d", intEx.Numer_Z[i]);
+	}
+	putchar('\n');
+}
+
+void outNat1(t_Nat natEx)
+{
+	int i;
+	for (i = natEx.Dgr_N; i >= 0; i--)
+	{
+		printf ("%d", natEx.Denom_N[i]);
+	}
+	putchar('\n');
+}
+
 
 /*
 Получает на вход рациональное число (адреса на ячейки памяти, хранящие первое рациональное число)
@@ -160,9 +197,7 @@ t_Rat SUB_QQ_Q(t_Rat ftQ, t_Rat sdQ)
 
 	Res.Numer = Z;
 	Res.Denom = N;
-
 	Res = RED_Q_Q(Res); //Сокращение полученной дроби
-
 	return Res;
 
 	//Алгоритм - Евгений Белоусов
